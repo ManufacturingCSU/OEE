@@ -8,68 +8,10 @@ Total effective equipment performance (TEEP) is a closely related measure which 
 
 For more details and history of OEE, read [this](https://en.wikipedia.org/wiki/Overall_equipment_effectiveness)
 
-## Calculating OEE
+## Calculating Basic OEE
 
-- Shift Length
-- Break Time
-- Planned Production Time === (Shift Length - Break Time)
-- ----------------------
-- Downtime
-- Runtime === ( Planned Production Time - Downtime)
-- ----------------------
-- Total Units
-- Rejected Units
-- Good Units === (Total Units - Rejected Units)
-- ----------------------
-- A (Run Time / Planned Production Time)	
-- P (Total Units / Run Time) / Ideal Run Rate)
-- Q (Good Units / Total Units)
-- ----------------------
-- OEE === (A * P * Q)
-- ----------------------
-
-## Calculating OEE Losses
-
-- Availability Losses === (Downtime / Cycle time) / (Total time / Cycle time)	
-- ----------------------
-- Quality Losses === Rejected Units / (Total time / Cycle time)	
-- ----------------------
-- Speed Losses === 100 - Availability losses - Quality losses - OEE	
-- ----------------------
+- See details on the calculation [here](OEECalculation.md).
 
 ## Design Patterns
 
-### - Availability
-    - Connectivity
-        - PLC --> Edge --> Cloud
-    - Constraints
-        - NRT throughput, bandwidth, cost
-    - Parameters
-        - Machine Status
-        - Planned Downtime
-        - Waiting/Changeover
-        - Line restraint
-
-### - Quality
-    - Connectivity
-        - MES --> Edge --> Cloud     (near real time)
-        - MES --> Integration Gateway --> Cloud  (batch)
-    - Constraints
-        - NRT throughput, bandwidth, cost
-        - Integration gateway, CDC, data pipelines
-    - Parameters
-        - Good parts
-        - Bad parts (Scrap)
-        - Rework
-
-### - Performance
-    - Connectivity
-    - Constraints
-    - Parameters
-        - Stoppages
-        - Reduced speed reasons
-
-## Getting Started
-
-
-
+- See details [here](OEEDesignPatterns.md)
