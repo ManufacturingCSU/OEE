@@ -1,3 +1,5 @@
+:warning: In progress
+
 # OEE Solution Design Patterns
 
 ### - Availability

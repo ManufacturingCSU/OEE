@@ -1,3 +1,5 @@
+:warning: In progress
+
 # OEE Solution with Near Real Time Availability and Quality
 
 This is a sample OEE solution to demo the design pattern. Kepware EX Demo Server is used as the OPC UA Server. The Edge Gateway Device is a Windows 10 PC. Both Kepware and Edge Gateway are installed on the same device for simplicity.

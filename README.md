@@ -1,3 +1,5 @@
+:warning: In progress
+
 # Overall Equipment Effectiveness (OEE)
 
 Overall Equipment Effectiveness is a measure of how well a manufacturing operation is utilized (facilities, time and material) compared to its full potential, during the periods when it is scheduled to run. It identifies the percentage of manufacturing time that is truly productive. An OEE of 100% means that only good parts are produced (100% quality), at the maximum speed (100% performance), and without interruption (100% availability).
