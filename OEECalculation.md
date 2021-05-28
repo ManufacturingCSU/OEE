@@ -2,7 +2,7 @@
 
 ## Sample Excel
 
-- See this [Excel with basic calculation](data/oee-basic.xlsx) along with losses
+- See this [Excel with basic calculation](files/oee-basic.xlsx) along with losses
 
 
 ## Basic OEE

@@ -1,0 +1,69 @@
+{
+    "modulesContent": {
+        "$edgeAgent": {
+            "properties.desired": {
+                "modules": {
+                    "OPCPublisher": {
+                        "settings": {
+                            "image": "mcr.microsoft.com/iotedge/opc-publisher:latest",
+                            "createOptions": "{\"Hostname\":\"OPCPublisher\",\"Cmd\":[\"PkiRootPath=/appdata/pki\",\"--lf=/appdata/publisher.log\",\"--pf=/appdata/publishednodes.json\",\"--aa\",\"--di=60\",\"--me=Json\",\"--mm=PubSub\"],\"HostConfig\":{\"Binds\":[\"/c/IoTEdgeMapping:/appdata\"]}}"
+                        },
+                        "type": "docker",
+                        "version": "1.0",
+                        "status": "running",
+                        "restartPolicy": "always"
+                    }
+                },
+                "runtime": {
+                    "settings": {
+                        "minDockerVersion": "v1.25"
+                    },
+                    "type": "docker"
+                },
+                "schemaVersion": "1.1",
+                "systemModules": {
+                    "edgeAgent": {
+                        "settings": {
+                            "image": "mcr.microsoft.com/azureiotedge-agent:1.1",
+                            "createOptions": ""
+                        },
+                        "type": "docker",
+                        "env": {
+                            "UpstreamProtocol": {
+                                "value": "AmqpWs"
+                            }
+                        }
+                    },
+                    "edgeHub": {
+                        "settings": {
+                            "image": "mcr.microsoft.com/azureiotedge-hub:1.1",
+                            "createOptions": "{\"HostConfig\":{\"PortBindings\":{\"443/tcp\":[{\"HostPort\":\"443\"}],\"5671/tcp\":[{\"HostPort\":\"5671\"}],\"8883/tcp\":[{\"HostPort\":\"8883\"}]}}}"
+                        },
+                        "type": "docker",
+                        "env": {
+                            "UpstreamProtocol": {
+                                "value": "AmqpWs"
+                            }
+                        },
+                        "status": "running",
+                        "restartPolicy": "always"
+                    }
+                }
+            }
+        },
+        "$edgeHub": {
+            "properties.desired": {
+                "routes": {
+                    "route": "FROM /messages/* INTO $upstream"
+                },
+                "schemaVersion": "1.1",
+                "storeAndForwardConfiguration": {
+                    "timeToLiveSecs": 7200
+                }
+            }
+        },
+        "OPCPublisher": {
+            "properties.desired": {}
+        }
+    }
+}

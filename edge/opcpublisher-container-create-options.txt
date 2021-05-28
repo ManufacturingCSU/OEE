@@ -1,0 +1,17 @@
+{
+    "Hostname": "OPCPublisher",
+    "Cmd": [
+        "PkiRootPath=/appdata/pki", 
+        "--lf=/appdata/publisher.log", 
+        "--pf=/appdata/publishednodes.json",
+        "--aa",
+        "--di=60",
+        "--me=Json",
+        "--mm=PubSub"
+    ],
+    "HostConfig": {
+        "Binds": [
+            "/c/IoTEdgeMapping:/appdata"
+        ]
+    }
+}

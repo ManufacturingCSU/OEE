@@ -1,0 +1,20 @@
+[
+  {
+    "EndpointUrl": "opc.tcp://host.docker.internal:49320",
+    "UseSecurity": true,
+    "OpcAuthenticationMode": "UsernamePassword",
+    "OpcAuthenticationUsername": "",
+    "OpcAuthenticationPassword": "",
+    "OpcNodes": [
+      {
+        "Id": "ns=2;s=OEESample.Status.Value"
+      },
+      {
+        "Id": "ns=2;s=OEESample.BadParts.Value"
+      },
+      {
+        "Id": "ns=2;s=OEESample.GoodParts.Value"
+      }
+    ]
+  }
+]

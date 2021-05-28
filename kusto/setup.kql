@@ -1,0 +1,57 @@
+.create table opcua_raw(payload: dynamic)
+
+.create table opcua_raw ingestion json mapping "opcua_mapping" @'[{"column":"payload","path":"$","datatype":"dynamic"}]'
+
+opcua_raw 
+| take 10
+
+// =========================================
+
+.create table opcua_intermediate(DataSetWriterID: string, payload: dynamic)
+
+.create-or-alter function OPCUARawExpand() {
+    opcua_raw
+    |mv-expand records = payload.Messages
+    |project 
+        DataSetWriterID = tostring(records["DataSetWriterId"]),
+        Payload = todynamic(records["Payload"])
+}
+
+.alter table opcua_intermediate policy update @'[{"Source": "opcua_raw", "Query": "OPCUARawExpand()", "IsEnabled": "True"}]'
+
+opcua_intermediate
+| take 10
+
+
+//======================================================
+
+.create table opcua_telemetry (DataSetWriterID: string, ExpandedNodeID: string, Value: dynamic, SourceTimestamp: datetime)
+
+.create-or-alter function OPCUADatasetExpand() {
+    opcua_intermediate
+    | mv-apply payload on (
+        extend key = tostring(bag_keys(payload)[0])
+        | extend p = payload[key]
+        | project ExpandedNodeId = key, Value = todynamic(p.Value), SourceTimestamp = todatetime(p.SourceTimestamp)
+    )
+}
+
+
+.alter table opcua_telemetry policy update @'[{"Source": "opcua_intermediate", "Query": "OPCUADatasetExpand()", "IsEnabled": "True"}]'
+
+
+opcua_telemetry
+| take 10
+
+
+// opcua_raw
+//     |mv-expand records = payload.Messages
+//     |project 
+//         DataSetWriterID = tostring(records["DataSetWriterId"]),
+//         Payload = todynamic(records["Payload"])
+//     | mv-apply Payload on (
+//         extend key = tostring(bag_keys(Payload)[0])
+//         | extend p = Payload[key]
+//         | project ExpandedNodeId = key, Value = todynamic(p.Value), SourceTimestamp = format_datetime(todatetime(p.SourceTimestamp),'yyyy-MM-dd HH:mm:ss')
+//     )
+//     | order by SourceTimestamp desc

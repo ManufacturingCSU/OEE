@@ -10,8 +10,20 @@ For more details and history of OEE, read [this](https://en.wikipedia.org/wiki/O
 
 ## Calculating Basic OEE
 
-- See details on the calculation [here](OEECalculation.md).
+![OEE Calculation](images/oeecalc.jpg)
+
+More details [here](OEECalculation.md).
 
 ## Design Patterns
 
-- See details [here](OEEDesignPatterns.md)
+![Design 1](images/Slide1.jpg)
+
+![Design 2](images/Slide2.jpg)
+
+![Design 3](images/Slide3.jpg)
+
+More details on pros/cons for each design [here](OEEDesignPatterns.md)
+
+## Getting Started
+
+- [Near Real Time Availability & Quality](OEEEngineSample.md)
