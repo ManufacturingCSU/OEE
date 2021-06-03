@@ -4,6 +4,9 @@
 
 This is a sample OEE solution to demo the design pattern. Kepware EX Demo Server is used as the OPC UA Server. The Edge Gateway Device is a Windows 10 PC. Both Kepware and Edge Gateway are installed on the same device for simplicity.
 
+![OEE Sample Solution](images/oeesamplesolution.jpg)
+
+
 ## Prerequisites
 - Windows 10 PC
 - Visual Studio Code
