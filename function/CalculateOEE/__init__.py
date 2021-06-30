@@ -5,7 +5,7 @@ import json
 from manufacturingmetrics import oee
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    logging.info("Parsing json body.")
+    logging.info("Parsing oee configuration json body.")
     reqBody = req.get_json()
     df = oee.calculateOEE(reqBody)
 

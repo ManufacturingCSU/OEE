@@ -7,14 +7,5 @@
       "idealProductionUnitsPerMinute": 1.5,
       "breakInMinutes": 60
     }
-  ],
-  "columnconfig": {
-    "assetIdColumnName": "DataSetWriterID",
-    "eventTypeColumnName": "ExpandedNodeId",
-    "eventValueColumnName": "Value",
-    "eventTimeColumnName": "SourceTimestamp",
-    "assetStatusEventType": "nsu=KEPServerEX;s=OEESample.Status.Value",
-    "goodProductionEventType": "nsu=KEPServerEX;s=OEESample.GoodParts.Value",
-    "badProductionEventType": "nsu=KEPServerEX;s=OEESample.BadParts.Value"
-  }
+  ]
 }
