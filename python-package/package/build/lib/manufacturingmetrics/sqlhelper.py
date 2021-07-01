@@ -23,11 +23,15 @@ class SQLHelper():
         df4 =  pd.DataFrame({ attrs.values() },columns=attrs.keys())
         return pd.concat([df1,df2,df3,df4,pd.DataFrame({"Performance":[assetAPQ.Performance], "OEE": [assetAPQ.OEE]})], axis=1)
 
-    def saveToSQL(self,assetAPQCalucations: List[OEEDetails]):
+    def getOEEDataFrame(self,assetAPQCalucations: List[OEEDetails]):
         df = pd.DataFrame()
         for a in assetAPQCalucations:
             df = pd.concat([df, self.getAPQDataFrame(a)],axis=0)
         df = df[df.columns.difference(['StartAssetStatus'])]
+        return df
+
+    def saveToSQL(self,assetAPQCalucations: List[OEEDetails]):
+        df = self.getOEEDataFrame(assetAPQCalucations)
         
         server = os.getenv("sql_server")
         database = os.getenv("sql_db_name")

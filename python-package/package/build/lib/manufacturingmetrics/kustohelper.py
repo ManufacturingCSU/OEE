@@ -27,6 +27,7 @@ class KustoHelper():
         client = KustoClient(KustoConnectionStringBuilder.with_aad_application_key_authentication
                             (cluster,appId,appSecret,aadTenantId))
         query = f"""{tableName}
+            | extend  {oeeConfig.eventTimeColumnName} =  {oeeConfig.eventTimeColumnName} {oeeConfig.utcOffsetInHours}
             | where  {oeeConfig.eventTimeColumnName} > datetime({startDateTime}) and {oeeConfig.eventTimeColumnName} < datetime({endDateTime})
             | project {oeeConfig.assetIdColumnName}, {oeeConfig.eventTypeColumnName}, {oeeConfig.eventValueColumnName}, {oeeConfig.eventTimeColumnName} = format_datetime(todatetime({oeeConfig.eventTimeColumnName}),'yyyy-MM-dd HH:mm:ss')
             | order by {oeeConfig.eventTimeColumnName} desc"""

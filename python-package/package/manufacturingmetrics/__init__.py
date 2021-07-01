@@ -1,4 +1,5 @@
+# -*- coding: utf-8 -*-
 
-def test(data):
-    print("testing package")
-    print(data)
+"""Top-level package for manufacturingmetrics."""
+
+__author__ = """Jomit Vaghela"""
