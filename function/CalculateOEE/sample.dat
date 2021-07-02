@@ -1,11 +1,3 @@
-{
-  "shiftdetails": [
-    {
-      "title": "night",
-      "startDateTime": "2021-05-23 00:00:00",
-      "endDateTime": "2021-05-23 04:00:00",
-      "idealProductionUnitsPerMinute": 1.5,
-      "breakInMinutes": 60
-    }
-  ]
+{ 
+    "oeeDate": "2021-06-30"
 }

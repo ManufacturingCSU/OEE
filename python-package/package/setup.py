@@ -5,7 +5,7 @@ with open("PACKAGEDETAILS.md", "r") as fh:
  
 setuptools.setup(
     name="manufacturingmetrics",
-    version="0.1.3",
+    version="0.1.4",
     author="Jomit Vaghela",
     author_email="",
     description="Package to calculate manufacturing metrics like OEE",

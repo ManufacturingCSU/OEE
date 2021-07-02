@@ -5,7 +5,7 @@ import os
 class Shift():
 
     def __init__(self, title, startDateTime, endDateTime, idealProductionUnitsPerMinute, 
-                breakInMinutes = 60, startAssetStatus = 0):
+                utcOffsetInHours, breakInMinutes = 60, startAssetStatus = 0):
         super().__init__()
         self.ShiftTitle = title
         self.ShiftStartTime = datetime.strptime(startDateTime, '%Y-%m-%d %H:%M:%S')
@@ -13,6 +13,7 @@ class Shift():
         self.IdealRunRate = idealProductionUnitsPerMinute
         self.StartAssetStatus = startAssetStatus
         self.BreakInMinutes = breakInMinutes   
+        self.UtcOffsetInHours = utcOffsetInHours
 
 class OEEConfiguration():
     
@@ -26,4 +27,3 @@ class OEEConfiguration():
         self.assetStatusEventType = os.getenv("assetStatusEventType")
         self.goodProductionEventType = os.getenv("goodProductionEventType")
         self.badProductionEventType = os.getenv("badProductionEventType")
-        self.utcOffsetInHours = os.getenv("utcOffsetInHours") 

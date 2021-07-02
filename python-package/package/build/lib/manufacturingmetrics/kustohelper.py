@@ -18,6 +18,7 @@ class KustoHelper():
         startDateTime = shifts[0].ShiftStartTime
         shifts.sort(key=lambda x:x.ShiftEndTime, reverse=True)
         endDateTime = shifts[0].ShiftEndTime
+        utcOffsetInHours = shifts[0].UtcOffsetInHours
         aadTenantId = os.getenv("kusto_aad_tenant_id")
         cluster = os.getenv("kusto_cluster_url")
         appId = os.getenv("kusto_app_id")
@@ -27,7 +28,7 @@ class KustoHelper():
         client = KustoClient(KustoConnectionStringBuilder.with_aad_application_key_authentication
                             (cluster,appId,appSecret,aadTenantId))
         query = f"""{tableName}
-            | extend  {oeeConfig.eventTimeColumnName} =  {oeeConfig.eventTimeColumnName} {oeeConfig.utcOffsetInHours}
+            | extend  {oeeConfig.eventTimeColumnName} =  {oeeConfig.eventTimeColumnName} {utcOffsetInHours}
             | where  {oeeConfig.eventTimeColumnName} > datetime({startDateTime}) and {oeeConfig.eventTimeColumnName} < datetime({endDateTime})
             | project {oeeConfig.assetIdColumnName}, {oeeConfig.eventTypeColumnName}, {oeeConfig.eventValueColumnName}, {oeeConfig.eventTimeColumnName} = format_datetime(todatetime({oeeConfig.eventTimeColumnName}),'yyyy-MM-dd HH:mm:ss')
             | order by {oeeConfig.eventTimeColumnName} desc"""

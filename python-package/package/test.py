@@ -8,39 +8,28 @@ from manufacturingmetrics.kustohelper import KustoHelper
 from dotenv import load_dotenv
 load_dotenv() 
 
-jsondata = json.loads('''
-{
-    "shiftdetails": [
-        {
-        "title": "local-test-pst-1",
-        "startDateTime": "2021-06-30 13:00:00",
-        "endDateTime": "2021-06-30 15:00:00",
-        "idealProductionUnitsPerMinute": 1,
-        "breakInMinutes": 10
-        },
-        {
-        "title": "local-test-pst-2",
-        "startDateTime": "2021-06-30 15:00:00",
-        "endDateTime": "2021-06-30 18:00:00",
-        "idealProductionUnitsPerMinute": 1,
-        "breakInMinutes": 10
-        }
-    ]
-    }
-''')
-shifts = []
-for s in jsondata["shiftdetails"]:
-    shifts.append(Shift(**s))
-oeeConfig = OEEConfiguration(shifts)
+def calculateOEE(configJson):
+    sqlHelper = SQLHelper()
+    shifts = sqlHelper.getShiftConfiguration(configJson["oeeDate"])
+    oeeConfig = OEEConfiguration(shifts)
 
-kustoHelper = KustoHelper()
-allAssetEvents = kustoHelper.getEventsFromKusto(oeeConfig)
+    print("Fetching data from kusto.")
+    kustoHelper = KustoHelper()
+    allAssetEvents = kustoHelper.getEventsFromKusto(oeeConfig)
 
-print(allAssetEvents)
+    print("Calculating OEE details.")
+    mfgMetrics = ManufacturingMetrics()
+    assetAPQCalucations = mfgMetrics.calculateAPQByShiftByAsset(allAssetEvents,oeeConfig)
 
-mfgMetrics = ManufacturingMetrics()
-assetAPQCalucations = mfgMetrics.calculateAPQByShiftByAsset(allAssetEvents,oeeConfig)
-print(assetAPQCalucations)
-df = SQLHelper().getOEEDataFrame(assetAPQCalucations)
-print(f"{df.to_json(orient='records') }")
+    #df = sqlHelper.getOEEDataFrame(assetAPQCalucations)
+    #print(f"{df.to_json(orient='records') }")
+
+    print("Saving OEE details to SQL DB.")
+    df = sqlHelper.saveToSQL(assetAPQCalucations)
+    return df
+
+configJson = json.loads('{ "oeeDate": "2021-06-30" }')
+calculateOEE(configJson)
+
+
     

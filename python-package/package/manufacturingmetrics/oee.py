@@ -7,11 +7,10 @@ from .sqlhelper import SQLHelper
 import json
 
 def calculateOEE(configJson):
-    shifts = []
-    for s in configJson["shiftdetails"]:
-        shifts.append(Shift(**s))
+    sqlHelper = SQLHelper()
+    shifts = sqlHelper.getShiftConfiguration(configJson["oeeDate"])
     oeeConfig = OEEConfiguration(shifts)
-    
+
     print("Fetching data from kusto.")
     kustoHelper = KustoHelper()
     allAssetEvents = kustoHelper.getEventsFromKusto(oeeConfig)
@@ -19,6 +18,10 @@ def calculateOEE(configJson):
     print("Calculating OEE details.")
     mfgMetrics = ManufacturingMetrics()
     assetAPQCalucations = mfgMetrics.calculateAPQByShiftByAsset(allAssetEvents,oeeConfig)
+
+    #df = sqlHelper.getOEEDataFrame(assetAPQCalucations)
+    #print(f"{df.to_json(orient='records') }")
+
     print("Saving OEE details to SQL DB.")
-    df = SQLHelper().saveToSQL(assetAPQCalucations)
+    df = sqlHelper.saveToSQL(assetAPQCalucations)
     return df
