@@ -1,0 +1,24 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "AzureWebJobsStorage": "",
+    "kusto_aad_tenant_id":"",
+    "kusto_cluster_url":"https://<cluster-name>.westus2.kusto.windows.net/",
+    "kusto_app_id":"",
+    "kusto_app_secret":"",
+    "kusto_db_name":"opcdb",
+    "kusto_table_name":"opcua_telemetry",
+    "sql_server":"<sql-server-name>.database.windows.net",
+    "sql_db_name":"",
+    "sql_username" : "",
+    "sql_password": "",
+    "assetIdColumnName": "DataSetWriterID",
+    "eventTypeColumnName": "ExpandedNodeID",
+    "eventValueColumnName": "Value",
+    "eventTimeColumnName": "SourceTimestamp",
+    "assetStatusEventType": "nsu=KEPServerEX;s=OEESample.Status.Value",
+    "goodProductionEventType": "nsu=KEPServerEX;s=OEESample.GoodParts.Value",
+    "badProductionEventType": "nsu=KEPServerEX;s=OEESample.BadParts.Value"
+  }
+}
