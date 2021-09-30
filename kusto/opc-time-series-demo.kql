@@ -1,0 +1,46 @@
+﻿opcua_raw
+| take 10
+
+opcua_intermediate
+| take 10
+
+opcua_telemetry
+| extend Timestamp = SourceTimestamp - 7h
+| where Timestamp > todatetime('2021-09-29 00:00:00.0000')
+| order by Timestamp desc
+
+// Line graph of Status Values
+opcua_telemetry
+| extend Timestamp = todatetime(SourceTimestamp - 7h)
+| where Timestamp > todatetime('2021-09-29 00:00:00.0000')
+| where ExpandedNodeID == 'nsu=KEPServerEX;s=OEESample.Status.Value'
+| project Timestamp, yaxis = todouble(Value), ExpandedNodeID
+| order by Timestamp desc
+| render linechart 
+
+
+// Good vs Bad parts total
+opcua_telemetry
+| extend Timestamp = todatetime(SourceTimestamp - 7h)
+| where Timestamp > todatetime('2021-09-29 00:00:00.0000')
+| where ExpandedNodeID == 'nsu=KEPServerEX;s=OEESample.BadParts.Value' or ExpandedNodeID == 'nsu=KEPServerEX;s=OEESample.GoodParts.Value'
+| order by Timestamp desc
+| summarize TotalParts = sum(toint(Value)) by ExpandedNodeID, Date=todatetime(format_datetime(todatetime(SourceTimestamp),'yyyy-MM-dd'))
+| project ExpandedNodeID, TotalParts
+| render columnchart
+
+// Count of different Status values
+opcua_telemetry
+| extend Timestamp = todatetime(SourceTimestamp - 7h)
+| where Timestamp > todatetime('2021-09-29 00:00:00.0000')
+| where ExpandedNodeID == 'nsu=KEPServerEX;s=OEESample.Status.Value'
+| order by Timestamp desc
+| summarize TotalParts = count() by toint(Value), Date=todatetime(format_datetime(todatetime(SourceTimestamp),'yyyy-MM-dd'))
+| project Value, TotalParts
+| render columnchart
+
+
+opcua_telemetry
+| extend Timestamp = todatetime(SourceTimestamp - 7h)
+| where Timestamp > todatetime('2021-09-29 00:00:00.0000')
+| where ExpandedNodeID == "nsu=KEPServerEX;s=OEESample.Status.Value" and Value == "3"
